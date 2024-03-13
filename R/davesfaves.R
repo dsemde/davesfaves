@@ -2,7 +2,7 @@
 ### Define colour palettes -----------------------------------------------------
 dave_colours <-  list(
   thuenen_all = c("#008CD2", "#00A0E1", "#00AAAA", "#00AA82",
-                  "#78BE1E", "#37464B", "#4B3228", "#AF0A19", 
+                  "#78BE1E", "#37464B", "#4B3228", "#AF0A19",
                   "#E10019", "#E17D00"),
   thuenen_primary = c("#008CD2", "#00A0E1", "#00AAAA", "#00AA82",
                       "#78BE1E"),
@@ -14,23 +14,23 @@ dave_colours <-  list(
 
 ### Helper functions -----------------------------------------------------------
 ## Palette collection
-daves_palettes <- function(palette, 
-                           n, 
-                           all_palettes = dave_colours, 
+daves_palettes <- function(palette,
+                           n,
+                           all_palettes = dave_colours,
                            type = c("discrete", "continuous"),
                            direction = c("foreward", "reverse")) {
-  
+
   palette <- all_palettes[[palette]]
-  
+
   if (missing(n)) {
     n <- length(palette)
   }
-  
+
   type <- match.arg(type)
   out <- switch(type,
                 continuous = grDevices::colorRampPalette(palette)(n),
                 discrete = palette[1:n])
-  
+
   structure(out, palette = palette, class = "palette")
 
   direction <- match.arg(direction)
@@ -60,7 +60,7 @@ palette_name_check <- function(palette) {
 # Check direction argument helper
 palette_direction_check <- function(direction) {
   if (!direction %in% c("foreward", "reverse"))
-    stop("Incorrect value for 'dir' argument, ", 
+    stop("Incorrect value for 'dir' argument, ",
          "please select 'foreward' or 'reverse'. Default value is 'foreward'.")
 }
 
@@ -72,7 +72,7 @@ palette_direction_check <- function(direction) {
 #' @param palette Name of the colour palette: 'thuenen_all', 'thuenen_primary', 'thuenen_secondary', 'daves_faves'
 #' @param direction Direction of the colour palette: 'forward' or 'reverse'
 #' @return Colour palette
-#' @examples 
+#' @examples
 #' ggplot(dat, aes(x, y)) + scale_colour_dave_d("daves_faves");
 #' ggplot(dat, aes(x, y)) + scale_colour_dave_d("thuenen_primary", direction = "reverse");
 #' @export
@@ -93,18 +93,18 @@ scale_colour_dave_d <- function(palette, direction = "foreward") {
 #' @param palette Name of the colour palette: 'thuenen_all', 'thuenen_primary', 'thuenen_secondary', 'daves_faves'
 #' @param direction Direction of the colour palette: 'forward' or 'reverse'
 #' @return Colour palette
-#' @examples 
+#' @examples
 #' ggplot(dat, aes(x, y)) + scale_fill_dave_d("daves_faves");
 #' ggplot(dat, aes(x, y)) + scale_fill_dave_d("thuenen_primary", direction = "reverse");
 #' @export
 scale_fill_dave_d <- function(palette, direction = "foreward") {
 
   input_check(palette, direction)
-  
+
   ggplot2::scale_fill_manual(values = daves_palettes(palette,
                                                      type = "discrete",
                                                      direction = direction),
-                             na.value = "transparent") 
+                             na.value = "transparent")
 
 }
 
@@ -114,7 +114,7 @@ scale_fill_dave_d <- function(palette, direction = "foreward") {
 #' @param palette Name of the colour palette: 'thuenen_all', 'thuenen_primary', 'thuenen_secondary', 'daves_faves'
 #' @param direction Direction of the colour palette: 'forward' or 'reverse'
 #' @return Colour palette
-#' @examples 
+#' @examples
 #' ggplot(dat, aes(x, y)) + scale_colour_dave_c("daves_faves");
 #' ggplot(dat, aes(x, y)) + scale_colour_dave_c("thuenen_primary", direction = "reverse");
 #' @export
@@ -122,7 +122,7 @@ scale_colour_dave_c <- function(palette, direction = "foreward") {
   
   input_check(palette, direction)
 
-  ggplot2::scale_colour_gradientn(colours = 
+  ggplot2::scale_colour_gradientn(colours =
                                     daves_palettes(palette,
                                                    type = "continuous",
                                                    direction = direction),
