@@ -9,7 +9,7 @@ dave_colours <-  list(
   thuenen_secondary = c("#37464B", "#4B3228", "#AF0A19", "#E10019",
                         "#E17D00"),
   daves_faves = c("#ffbf49", "#3faeb8", "#024B7A"),
-  daves_faves_y_b = c("#3faeb8", "#024B7A")
+  daves_faves_y_b = c("#ffbf49", "#024B7A")
 )
 
 
