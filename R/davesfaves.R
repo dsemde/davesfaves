@@ -8,10 +8,11 @@ dave_colours <-  list(
                       "#78BE1E"),
   thuenen_secondary = c("#37464B", "#4B3228", "#AF0A19", "#E10019",
                         "#E17D00"),
-  daves_faves_old = c("#ffbf49", "#3faeb8", "#024B7A"),
-  daves_faves = c("#045275", "#089099", "#7CCBA2", "#FCDE9C",
-                 "#F0746E", "#DC3977", "#7C1D6F"),
-  daves_faves_b_y = c("#045275", "#089099", "#7CCBA2", "#FCDE9C")
+  # daves_faves_old = c("#ffbf49", "#3faeb8", "#024B7A"),
+  daves_faves = c("#045275", "#089099", "#7CCBA2", "#ffd579",
+                  "#F0746E", "#DC3977", "#7C1D6F"),
+  daves_faves_b_y = c("#045275", "#089099", "#7CCBA2", "#ffd579"),
+  daves_faves_p_y = c("#7C1D6F", "#DC3977", "#F0746E", "#ffd579")
 )
 
 
@@ -42,13 +43,25 @@ daves_palettes <- function(palette,
                 reverse = rev(out))
 }
 
-
+## Rescale colour palette around a midpoint
+mid_rescaler <- function(mid) {
+  if (!is.na(mid)) {
+    function(x, to = c(0, 1), from = range(x, na.rm = TRUE)) {
+      scales::rescale_mid(x, to, from, mid)
+    }
+  } else {
+    function(x, to = c(0, 1), from = range(x, na.rm = TRUE)) {
+      scales::rescale(x, to, from)
+    }
+  }
+}
 
 ## Input check
 # Combine checks
-input_check <- function(palette, direction) {
+input_check <- function(palette, direction, midcol) {
   palette_name_check(palette)
   palette_direction_check(direction)
+  mid_palette_col_check(midcol)
 }
 
 # Check palete name argument helper
@@ -65,6 +78,11 @@ palette_direction_check <- function(direction) {
   if (!direction %in% c("foreward", "reverse"))
     stop("Incorrect value for 'dir' argument, ",
          "please select 'foreward' or 'reverse'. Default value is 'foreward'.")
+}
+
+mid_palette_col_check <- function(midcol) {
+  if (!is.na(midcol))
+    tryCatch(col2rgb(midcol), error = function(e) FALSE)
 }
 
 ### Palette functions ----------------------------------------------------------
@@ -121,14 +139,23 @@ scale_fill_dave_d <- function(palette, direction = "foreward") {
 #' ggplot(dat, aes(x, y)) + scale_colour_dave_c("daves_faves");
 #' ggplot(dat, aes(x, y)) + scale_colour_dave_c("thuenen_primary", direction = "reverse");
 #' @export
-scale_colour_dave_c <- function(palette, direction = "foreward") {
-  
-  input_check(palette, direction)
+scale_colour_dave_c <- function(palette,
+                                direction = "foreward",
+                                mid = NA,
+                                midcol = NA) {
 
-  ggplot2::scale_colour_gradientn(colours =
-                                    daves_palettes(palette,
-                                                   type = "continuous",
-                                                   direction = direction),
+  input_check(palette, direction, midcol)
+
+  palette <- daves_palettes(palette,
+                            type = "continuous",
+                            direction = direction)
+
+  if (!is.na(midcol)) {
+    palette[ceiling(length(palette) / 2)] <- midcol
+  }
+
+  ggplot2::scale_colour_gradientn(colours = palette,
+                                  rescaler = mid_rescaler(mid),
                                   na.value = "transparent")
 
 }
@@ -139,17 +166,28 @@ scale_colour_dave_c <- function(palette, direction = "foreward") {
 #' @param palette Name of the colour palette: 'thuenen_all', 'thuenen_primary', 'thuenen_secondary', 'daves_faves'
 #' @param direction Direction of the colour palette: 'forward' or 'reverse'
 #' @return Colour palette
-#' @examples 
+#' @examples
 #' ggplot(dat, aes(x, y)) + scale_fill_dave_c("daves_faves");
 #' ggplot(dat, aes(x, y)) + scale_fill_dave_c("thuenen_primary", direction = "reverse");
 #' @export
-scale_fill_dave_c <- function(palette, direction = "foreward") {
+scale_fill_dave_c <- function(palette,
+                              direction = "foreward",
+                              mid = NA,
+                              midcol = NA) {
 
   input_check(palette, direction)
 
-  ggplot2::scale_fill_gradientn(colours = daves_palettes(palette,
-                                                         type = "continuous",
-                                                         direction = direction),
+  palette <- daves_palettes(palette,
+                            type = "continuous",
+                            direction = direction)
+
+  # If midcol is not NA, replace the middle colour with midcol
+  if (!is.na(midcol)) {
+    palette[ceiling(length(palette) / 2)] <- midcol
+  }
+
+  ggplot2::scale_fill_gradientn(colours = palette,
+                                rescaler = mid_rescaler(mid),
                                 na.value = "transparent")
 
 }
