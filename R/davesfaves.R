@@ -9,8 +9,10 @@ dave_colours <-  list(
   thuenen_secondary = c("#37464B", "#4B3228", "#AF0A19", "#E10019",
                         "#E17D00"),
   # daves_faves_old = c("#ffbf49", "#3faeb8", "#024B7A"),
-  daves_faves = c("#045275", "#089099", "#7CCBA2", "#ffd079",
-                  "#F0746E", "#DC3977", "#7C1D6F"),
+  # daves_faves_less_old = c("#045275", "#089099", "#7CCBA2", "#ffd079",
+  #                 "#F0746E", "#DC3977", "#7C1D6F"),
+  daves_faves = c("#045275", "#089099", "#7CCBB6", "#ffd079",
+                  "#F6A06E", "#C7504C", "#662D3A"),
   daves_faves_b_y = c("#045275", "#089099", "#7CCBA2", "#ffd079"),
   daves_faves_p_y = c("#7C1D6F", "#DC3977", "#F0746E", "#ffd079")
 )
