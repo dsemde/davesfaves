@@ -60,13 +60,19 @@ mid_rescaler <- function(mid) {
 
 ## Input check
 # Combine checks
-input_check <- function(palette, direction, midcol) {
+# Continuous palettes
+input_check_c <- function(palette, direction, midcol) {
   palette_name_check(palette)
   palette_direction_check(direction)
   mid_palette_col_check(midcol)
 }
+# Discrete palettes
+input_check_d <- function(palette, direction) {
+  palette_name_check(palette)
+  palette_direction_check(direction)
+}
 
-# Check palete name argument helper
+# Check palette name argument helper
 palette_name_check <- function(palette) {
   if (!palette %in% names(dave_colours))
     stop(paste0("Incorrect value for 'palette' agrument. ",
@@ -101,7 +107,7 @@ mid_palette_col_check <- function(midcol) {
 #' @export
 scale_colour_dave_d <- function(palette, direction = "foreward") {
 
-  input_check(palette, direction)
+  input_check_d(palette, direction)
 
   ggplot2::scale_colour_manual(values = daves_palettes(palette,
                                                        type = "discrete",
@@ -122,7 +128,7 @@ scale_colour_dave_d <- function(palette, direction = "foreward") {
 #' @export
 scale_fill_dave_d <- function(palette, direction = "foreward") {
 
-  input_check(palette, direction)
+  input_check_dpalette, direction)
 
   ggplot2::scale_fill_manual(values = daves_palettes(palette,
                                                      type = "discrete",
@@ -146,7 +152,7 @@ scale_colour_dave_c <- function(palette,
                                 mid = NA,
                                 midcol = NA) {
 
-  input_check(palette, direction, midcol)
+  input_check_c(palette, direction, midcol)
 
   palette <- daves_palettes(palette,
                             type = "continuous",
@@ -177,7 +183,7 @@ scale_fill_dave_c <- function(palette,
                               mid = NA,
                               midcol = NA) {
 
-  input_check(palette, direction)
+  input_check_c(palette, direction)
 
   palette <- daves_palettes(palette,
                             type = "continuous",
