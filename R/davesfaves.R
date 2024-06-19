@@ -128,7 +128,7 @@ scale_colour_dave_d <- function(palette, direction = "foreward") {
 #' @export
 scale_fill_dave_d <- function(palette, direction = "foreward") {
 
-  input_check_dpalette, direction)
+  input_check_d(palette, direction)
 
   ggplot2::scale_fill_manual(values = daves_palettes(palette,
                                                      type = "discrete",
