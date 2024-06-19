@@ -120,9 +120,9 @@ scale_colour_dave_d <- function(palette, direction = "foreward") {
 #' ggplot(dat, aes(x, y)) + scale_fill_dave_d("daves_faves");
 #' ggplot(dat, aes(x, y)) + scale_fill_dave_d("thuenen_primary", direction = "reverse");
 #' @export
-scale_fill_dave_d <- function(palette, direction = "foreward", midcol = NA) {
+scale_fill_dave_d <- function(palette, direction = "foreward") {
 
-  input_check(palette, direction, midcol)
+  # input_check(palette, direction)
 
   ggplot2::scale_fill_manual(values = daves_palettes(palette,
                                                      type = "discrete",
