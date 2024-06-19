@@ -59,7 +59,7 @@ mid_rescaler <- function(mid) {
 }
 
 ## Input check
-# Combine checks
+
 # Continuous palettes
 input_check_c <- function(palette, direction, midcol) {
   palette_name_check(palette)
