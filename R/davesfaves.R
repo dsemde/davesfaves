@@ -105,14 +105,28 @@ mid_palette_col_check <- function(midcol) {
 #' ggplot(dat, aes(x, y)) + scale_colour_dave_d("daves_faves");
 #' ggplot(dat, aes(x, y)) + scale_colour_dave_d("thuenen_primary", direction = "reverse");
 #' @export
-scale_colour_dave_d <- function(palette, direction = "foreward") {
+scale_colour_dave_d <- function(palette, direction = "foreward", name) {
 
   input_check_d(palette, direction)
 
-  ggplot2::scale_colour_manual(values = daves_palettes(palette,
+  if (!missing(name)) {
+      ggplot2::scale_colour_manual(values = daves_palettes(palette,
+                                                       type = "discrete",
+                                                       direction = direction),
+                               na.value = "transparent",
+                               name = name)
+  } else {
+      ggplot2::scale_colour_manual(values = daves_palettes(palette,
                                                        type = "discrete",
                                                        direction = direction),
                                na.value = "transparent")
+  }
+
+  # ggplot2::scale_colour_manual(values = daves_palettes(palette,
+  #                                                      type = "discrete",
+  #                                                      direction = direction),
+  #                              na.value = "transparent",
+  #                              name = name)
 
 }
 
@@ -126,14 +140,27 @@ scale_colour_dave_d <- function(palette, direction = "foreward") {
 #' ggplot(dat, aes(x, y)) + scale_fill_dave_d("daves_faves");
 #' ggplot(dat, aes(x, y)) + scale_fill_dave_d("thuenen_primary", direction = "reverse");
 #' @export
-scale_fill_dave_d <- function(palette, direction = "foreward") {
+scale_fill_dave_d <- function(palette, direction = "foreward", name) {
 
   input_check_d(palette, direction)
 
-  ggplot2::scale_fill_manual(values = daves_palettes(palette,
+  if (!missing(name)) {
+      ggplot2::scale_fill_manual(values = daves_palettes(palette,
+                                                     type = "discrete",
+                                                     direction = direction),
+                             na.value = "transparent",
+                             name = name)
+  } else {
+      ggplot2::scale_fill_manual(values = daves_palettes(palette,
                                                      type = "discrete",
                                                      direction = direction),
                              na.value = "transparent")
+  }
+
+  # ggplot2::scale_fill_manual(values = daves_palettes(palette,
+  #                                                    type = "discrete",
+  #                                                    direction = direction),
+  #                            na.value = "transparent")
 
 }
 
@@ -150,7 +177,8 @@ scale_fill_dave_d <- function(palette, direction = "foreward") {
 scale_colour_dave_c <- function(palette,
                                 direction = "foreward",
                                 mid = NA,
-                                midcol = NA) {
+                                midcol = NA,
+                                name) {
 
   input_check_c(palette, direction, midcol)
 
@@ -162,9 +190,20 @@ scale_colour_dave_c <- function(palette,
     palette[ceiling(length(palette) / 2)] <- midcol
   }
 
-  ggplot2::scale_colour_gradientn(colours = palette,
+  if (!missing(name)) {
+    ggplot2::scale_colour_gradientn(colours = palette,
+                                  rescaler = mid_rescaler(mid),
+                                  na.value = "transparent",
+                                  name = name)
+  } else {
+    ggplot2::scale_colour_gradientn(colours = palette,
                                   rescaler = mid_rescaler(mid),
                                   na.value = "transparent")
+  }
+
+  # ggplot2::scale_colour_gradientn(colours = palette,
+  #                                 rescaler = mid_rescaler(mid),
+  #                                 na.value = "transparent")
 
 }
 
@@ -181,7 +220,8 @@ scale_colour_dave_c <- function(palette,
 scale_fill_dave_c <- function(palette,
                               direction = "foreward",
                               mid = NA,
-                              midcol = NA) {
+                              midcol = NA,
+                              name) {
 
   input_check_c(palette, direction)
 
@@ -194,9 +234,20 @@ scale_fill_dave_c <- function(palette,
     palette[ceiling(length(palette) / 2)] <- midcol
   }
 
-  ggplot2::scale_fill_gradientn(colours = palette,
+  if (!missing(name)) {
+    ggplot2::scale_fill_gradientn(colours = palette,
+                                rescaler = mid_rescaler(mid),
+                                na.value = "transparent",
+                                name = name)
+  } else {
+    ggplot2::scale_fill_gradientn(colours = palette,
                                 rescaler = mid_rescaler(mid),
                                 na.value = "transparent")
+  }
+
+  # ggplot2::scale_fill_gradientn(colours = palette,
+  #                               rescaler = mid_rescaler(mid),
+  #                               na.value = "transparent")
 
 }
 
